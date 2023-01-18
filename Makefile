@@ -6,7 +6,7 @@
 #    By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/07 11:54:53 by nakebli           #+#    #+#              #
-#    Updated: 2023/01/16 12:51:50 by nakebli          ###   ########.fr        #
+#    Updated: 2023/01/18 12:19:06 by nakebli          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,11 +49,11 @@ bonus : $(OBJS)
 	$(AR) $(NAME) $(B_OBJS) $(OBJS)
 
 clean:
-	$(RM) $(OBJS_C) $(OBJS_S)
+	@$(RM) $(OBJS_C) $(OBJS_S)
 	make clean -C ./printf
 
 fclean:clean
-	$(RM) $(OBJS_C) $(OBJS_S)  $(CLIENT) $(SERVER)
+	@$(RM) $(OBJS_C) $(OBJS_S)  $(CLIENT) $(SERVER)
 	make fclean -C ./printf
 
 re: fclean all

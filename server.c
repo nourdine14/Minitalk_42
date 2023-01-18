@@ -6,7 +6,7 @@
 /*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 12:01:45 by nakebli           #+#    #+#             */
-/*   Updated: 2023/01/17 14:19:46 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/01/18 19:55:05 by nakebli          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,40 +17,25 @@
 #include "libft/libft.h"
 #include "printf/libftprintf.h"
 
-// void	signal_handler(int signum, siginfo_t *info, void *context)
-// {
-// 	// static char	c = 0x00;
-// 	static int	i = 0;
-
-// 	(void) context;
-// 	(void) info;
-// 	if (signum == SIGUSR1)
-// 		printf("1");
-// 		// c = (c << 1) | 1;
-// 	else if (signum == SIGUSR2)
-// 		printf("0");
-// 		// c = (c << 1) & 1;
-// 	// if (i != 1 && i % 7 == 0)
-// 	// 	write(1, &c, 1);
-// 	i++;
-// }
-
 void	signal_handler(int signum, siginfo_t *info, void *context)
 {
-	static char	c = 'a';
+	static char	c = 0x00;
 	static int	bit = 0;
 	static int	pid = 0;
 
 	(void) context;
-	if (!(info)->si_pid)
-		return ;
-	pid = info->si_pid;
+	if (pid && pid != info->si_pid)
+	{
+		bit = 0;
+		c = 0x00;
+	}
+	if ((info)->si_pid)
+		pid = info->si_pid;
 	if (signum == SIGUSR1)
 		c = (c << 1) | 1;
 	else if (signum == SIGUSR2)
-		c = (c << 1) & 1;
-	bit++;
-	if (bit == 9)
+		c = (c << 1);
+	if (++bit == 8)
 	{
 		if (!c)
 			kill(pid, SIGUSR1);
@@ -59,29 +44,6 @@ void	signal_handler(int signum, siginfo_t *info, void *context)
 		c = 0x00;
 	}
 }
-
-// void	signal_handler(int signum, siginfo_t *info, void *context)
-// {
-// 	static char	c = 0xFF;
-// 	static int	bit = 0;
-// 	static int	pid = 0;
-
-// 	(void) context;
-// 	if ((info)->si_pid)
-// 		pid = info->si_pid;
-// 	if (signum == SIGUSR1)
-// 		c |= 0x80 >> bit;
-// 	else if (signum == SIGUSR2)
-// 		c ^= 0x80 >> bit;
-// 	if (++bit == 9)
-// 	{
-// 		if (!c)
-// 			kill(pid, SIGUSR1);
-// 		ft_printf("%c", c);
-// 		bit = 0;
-// 		c = 0xFF;
-// 	}
-// }
 
 int	main(void)
 {
